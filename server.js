@@ -6,10 +6,18 @@ var corsOptions = {
     origin: "https://localhost:8001"
 }
 
+
 //middleware
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+
+//router
+const router = require("./routes/productRouter");
+app.use("/api/products",router);
+
+
 
 //testing API
 app.get("/",(req,res)=>{

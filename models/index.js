@@ -1,6 +1,6 @@
 const dbConfig = require("../config/dbConfig.js");
 
-const {sequelize, DataTypes, Sequelize} = require("sequelize");
+const {DataTypes, Sequelize} = require("sequelize");
 
 const sequelize = new Sequelize(
     dbConfig.DB,
@@ -9,12 +9,13 @@ const sequelize = new Sequelize(
         host: dbConfig.HOST,
         dialect:dbConfig.dialect,
         operatorsAliases:false,
+        logging:false, //for not showing query in console
 
         pool:{
             max:dbConfig.pool.max,
             min:dbConfig.pool.min,
             acquire:dbConfig.pool.acquire,
-            idle:dbConfig.pool.pool.idle
+            idle:dbConfig.pool.idle
         }
     }
 )
@@ -32,8 +33,8 @@ const db = {}
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.products = require ("productModel.js")(sequelize,DataTypes)
-db.reviews = require ("reviewModel.js")(sequelize,DataTypes)
+db.products = require ("./productModel.js")(sequelize,DataTypes)
+db.reviews = require ("./reviewModel.js")(sequelize,DataTypes)
 
 db.sequelize.sync({force:false})
 .then(()=>{
